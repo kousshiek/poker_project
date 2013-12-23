@@ -113,6 +113,7 @@ def get_straight_rank(cards):
     return top
    
 def evaluate_hand(cards):
+    cards.sort()
     flush = is_flush(cards)
     straight = is_straight(cards)
     counts = rank_count(cards)
@@ -144,10 +145,14 @@ def evaluate_hand(cards):
 SUITS = ('c', 'd', 'h', 's')
 RANKS = ('2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A')
 #DECK stores all cards
-DECK = tuple(''.join(card) for card in itertools.product(RANKS, SUITS))
-ORDER_LOOKUP = dict(zip(DECK, range(52)))
-RANK_LOOKUP = dict(zip(RANKS, range(13)))
+DECK = tuple(''.join(card) for card in itertools.product(RANKS,SUITS))
 SUIT_LOOKUP = dict(zip(SUITS, range(4)))
+RANK_LOOKUP = dict(zip(RANKS, range(13)))
+ORDER_LOOKUP={}
+i=0
+for card in DECK:
+    ORDER_LOOKUP[card] = SUIT_LOOKUP[card[1]] *13 + RANK_LOOKUP[card[0]]
+    i=i+1
 def main():
     #Pick 5 random cards from deck
     mycards=random.sample(DECK,5)
@@ -159,14 +164,14 @@ def main():
     print evaluate_hand(mycards)
     print evaluate_hand(yourcards)
     #evaluation of card1 and card2
-    print 'evaluation of card1 is'
-    card1= ['4s','4c','Ad','Ah','Ac']
+    #print 'evaluation of card1 is'
+    card1= ['8s','7c','6d','5h','4c']
     print card1
     print evaluate_hand(card1)
-    print 'evaluation of card2 is'
+    #print 'evaluation of card2 is'
     card2= ['4s','4c','4d','Ah','Ac']
     print card2
     print evaluate_hand(card2)
-    return 0
+    #return 0
 if __name__ == '__main__':
     main()
